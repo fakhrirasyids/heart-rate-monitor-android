@@ -2,9 +2,11 @@ plugins {
     alias(libs.plugins.android.application)
 }
 
+apply(from = "../shared_dependencies.gradle")
+
 android {
     namespace = "com.fakhrirasyids.heartratemonitor"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.fakhrirasyids.heartratemonitor"
@@ -15,7 +17,9 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
-
+    buildFeatures {
+        viewBinding = true
+    }
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -32,16 +36,7 @@ android {
 }
 
 dependencies {
+    // Core Module
 
-    // Dagger2
-    implementation(libs.dagger)
-    annotationProcessor(libs.dagger.compiler)
-
-    implementation(libs.appcompat)
-    implementation(libs.material)
-    implementation(libs.activity)
-    implementation(libs.constraintlayout)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.ext.junit)
-    androidTestImplementation(libs.espresso.core)
+    implementation(project(":core"))
 }
