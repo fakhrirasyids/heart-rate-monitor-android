@@ -5,16 +5,80 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical"
     tools:context=".ui.main.MainActivity">
 
-    <TextView
-        android:id="@+id/tv_heart_rate"
-        android:layout_width="wrap_content"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/layout_toolbar"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:title="@string/app_name"
+            android:titleTextColor="@android:color/black" />
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_heart_rate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/layout_toolbar"
+        tools:visibility="visible">
+
+        <TextView
+            android:id="@+id/tv_heart_rate_status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/title_heart_rate_status"
+            android:textColor="@android:color/black"
+            android:textSize="24sp"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.fakhrirasyids.heartratemonitor.ui.customview.HeartBeatView
+            android:id="@+id/heartbeat"
+            android:layout_width="match_parent"
+            android:layout_height="160dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_heart_rate_status" />
+
+        <TextView
+            android:id="@+id/tv_heart_rate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textColor="@android:color/white"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/heartbeat"
+            app:layout_constraintEnd_toEndOf="@id/heartbeat"
+            app:layout_constraintStart_toStartOf="@id/heartbeat"
+            app:layout_constraintTop_toTopOf="@id/heartbeat"
+            tools:text="190\nBpm" />
+
+        <TextView
+            android:id="@+id/tv_heart_rate_zones"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="@android:color/holo_red_dark"
+            android:textSize="38sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@id/heartbeat"
+            tools:text="Resting Zone" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

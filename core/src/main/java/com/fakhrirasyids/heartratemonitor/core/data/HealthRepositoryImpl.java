@@ -23,7 +23,6 @@ public class HealthRepositoryImpl implements HealthRepository {
     public Observable<HeartRateData> fetchHeartRate() {
         return Observable.interval(1, TimeUnit.SECONDS)
                 .flatMap(map -> apiService.getHeartRate())
-                .map(HeartRateMapper::mapToHeartRateData)
-                .onErrorReturnItem(new HeartRateData(-1));
+                .map(HeartRateMapper::mapToHeartRateData);
     }
 }
