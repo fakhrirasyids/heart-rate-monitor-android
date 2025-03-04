@@ -50,7 +50,7 @@ public class MainViewModel extends ViewModel {
         _isLoading.postValue(true);
         _errorMessage.postValue(null);
         disposables.add(fetchHeartRateUseCase.execute()
-                .subscribeOn(Schedulers.io())
+                .subscribeOn(Schedulers.trampoline())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::processHeartRateData, this::handleError));
     }

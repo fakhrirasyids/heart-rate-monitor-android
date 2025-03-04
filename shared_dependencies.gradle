@@ -1,4 +1,10 @@
 dependencies {
+    // Mockito
+    testImplementation(libs.core.testing)
+    testImplementation(libs.mockito.core)
+    testImplementation(libs.mockito.inline)
+    testImplementation(libs.core.testing)
+
     // Retrofit
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
