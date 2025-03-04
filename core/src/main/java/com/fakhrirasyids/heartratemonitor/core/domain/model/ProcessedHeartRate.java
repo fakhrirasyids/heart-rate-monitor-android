@@ -1,19 +1,18 @@
 package com.fakhrirasyids.heartratemonitor.core.domain.model;
 
-public class HeartRateData {
-
-    private final int heartRateBpm;
+public class ProcessedHeartRate {
+    private final int bpm;
     private final HeartRateZones zone;
     private final boolean isAbnormal;
 
-    public HeartRateData(int heartRateBpm) {
-        this.heartRateBpm = heartRateBpm;
-        this.zone = classifyHeartRateZone(heartRateBpm);
-        this.isAbnormal = (heartRateBpm > 100 || heartRateBpm < 60);
+    public ProcessedHeartRate(HeartRateData data) {
+        this.bpm = data.getHeartRateBpm();
+        this.zone = classifyHeartRateZone(this.bpm);
+        this.isAbnormal = (this.bpm > 100 || this.bpm < 60);
     }
 
-    public int getHeartRateBpm() {
-        return heartRateBpm;
+    public int getBpm() {
+        return bpm;
     }
 
     public HeartRateZones getZone() {

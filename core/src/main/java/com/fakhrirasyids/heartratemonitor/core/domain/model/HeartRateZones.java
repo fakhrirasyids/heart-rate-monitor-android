@@ -1,4 +1,4 @@
-package com.fakhrirasyids.heartratemonitor.core.utils.enums;
+package com.fakhrirasyids.heartratemonitor.core.domain.model;
 
 public enum HeartRateZones {
     RESTING_ZONE("Resting Zone", 0),

@@ -1,4 +1,4 @@
-package com.fakhrirasyids.heartratemonitor.ui.customview;
+package com.fakhrirasyids.heartratemonitor.ui.customview.view;
 
 import android.animation.Animator;
 import android.content.Context;

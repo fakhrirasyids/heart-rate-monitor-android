@@ -1,7 +1,8 @@
 package com.fakhrirasyids.heartratemonitor.core.domain.usecase.fetchheartrate;
 
-import com.fakhrirasyids.heartratemonitor.core.domain.model.HeartRateData;
+import com.fakhrirasyids.heartratemonitor.core.domain.model.ProcessedHeartRate;
 import com.fakhrirasyids.heartratemonitor.core.domain.repository.HealthRepository;
+import com.fakhrirasyids.heartratemonitor.core.utils.mapper.ProcessedHeartRateMapper;
 
 import javax.inject.Inject;
 
@@ -15,8 +16,11 @@ public class FetchHeartRateInteractor implements FetchHeartRateUseCase {
         this.repository = repository;
     }
 
-    public Observable<HeartRateData> execute() {
-        return repository.fetchHeartRate();
+    @Override
+    public Observable<ProcessedHeartRate> execute() {
+        return repository.fetchHeartRate()
+                .map(ProcessedHeartRateMapper::mapToProcessedHeartRate)
+                .onErrorResumeNext(Observable::error);
     }
 }
 

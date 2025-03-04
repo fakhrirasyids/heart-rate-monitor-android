@@ -18,8 +18,9 @@ import android.util.Log;
 import androidx.core.app.ActivityCompat;
 
 import com.fakhrirasyids.heartratemonitor.core.BuildConfig;
+import com.fakhrirasyids.heartratemonitor.core.domain.model.ProcessedHeartRate;
 import com.fakhrirasyids.heartratemonitor.core.domain.repository.BleRepository;
-import com.fakhrirasyids.heartratemonitor.core.utils.enums.HeartRateZones;
+import com.fakhrirasyids.heartratemonitor.core.domain.model.HeartRateZones;
 
 import java.util.UUID;
 
@@ -101,16 +102,16 @@ public class BleRepositoryImpl implements BleRepository {
     }
 
     @Override
-    public void sendData(Context context, int heartRate, HeartRateZones zones) {
+    public void sendData(Context context, ProcessedHeartRate heartRate) {
         if (bluetoothGatt == null) {
             Log.e("BLE", "Bluetooth GATT is not connected!");
-            simulateDeviceCommunication(String.valueOf(heartRate), zones.getDisplayName());
+            simulateDeviceCommunication(String.valueOf(heartRate.getBpm()), heartRate.getZone().getDisplayName());
             return;
         }
 
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
             Log.e("BLE", "Permission not granted!");
-            simulateDeviceCommunication(String.valueOf(heartRate), zones.getDisplayName());
+            simulateDeviceCommunication(String.valueOf(heartRate.getBpm()), heartRate.getZone().getDisplayName());
             return;
         }
 
@@ -120,18 +121,18 @@ public class BleRepositoryImpl implements BleRepository {
         BluetoothGattService service = bluetoothGatt.getService(serviceUUID);
         if (service == null) {
             Log.e("BLE", "Heart Rate Service not found!");
-            simulateDeviceCommunication(String.valueOf(heartRate), zones.getDisplayName());
+            simulateDeviceCommunication(String.valueOf(heartRate.getBpm()), heartRate.getZone().getDisplayName());
             return;
         }
 
         BluetoothGattCharacteristic characteristic = service.getCharacteristic(characteristicUUID);
         if (characteristic == null) {
             Log.e("BLE", "Heart Rate Characteristic not found!");
-            simulateDeviceCommunication(String.valueOf(heartRate), zones.getDisplayName());
+            simulateDeviceCommunication(String.valueOf(heartRate.getBpm()), heartRate.getZone().getDisplayName());
             return;
         }
 
-        byte[] heartRateData = new byte[]{(byte) heartRate, (byte) zones.getIdx()};
+        byte[] heartRateData = new byte[]{(byte) heartRate.getBpm(), (byte) heartRate.getZone().getIdx()};
         characteristic.setValue(heartRateData);
 
         boolean success = bluetoothGatt.writeCharacteristic(characteristic);
@@ -139,7 +140,7 @@ public class BleRepositoryImpl implements BleRepository {
             Log.d("BLE", "Heart Rate sent: " + heartRate);
         } else {
             Log.e("BLE", "Failed to send Heart Rate!");
-            simulateDeviceCommunication(String.valueOf(heartRate), zones.getDisplayName());
+            simulateDeviceCommunication(String.valueOf(heartRate.getBpm()), heartRate.getZone().getDisplayName());
         }
     }
 

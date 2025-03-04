@@ -7,10 +7,9 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.fakhrirasyids.heartratemonitor.core.domain.model.HeartRateData;
+import com.fakhrirasyids.heartratemonitor.core.domain.model.ProcessedHeartRate;
 import com.fakhrirasyids.heartratemonitor.core.domain.usecase.blesendandconnect.BleSendAndConnectUseCase;
 import com.fakhrirasyids.heartratemonitor.core.domain.usecase.fetchheartrate.FetchHeartRateUseCase;
-import com.fakhrirasyids.heartratemonitor.core.utils.enums.HeartRateZones;
 import com.fakhrirasyids.heartratemonitor.utils.ErrorHandling;
 
 import javax.inject.Inject;
@@ -24,11 +23,8 @@ public class MainViewModel extends ViewModel {
     private final FetchHeartRateUseCase fetchHeartRateUseCase;
     private final BleSendAndConnectUseCase bleSendAndConnectUseCase;
 
-    private final MutableLiveData<HeartRateData> _heartRateLiveData = new MutableLiveData<>();
-    public LiveData<HeartRateData> heartRateLiveData = _heartRateLiveData;
-
-    private final MutableLiveData<HeartRateZones> _heartRateZone = new MutableLiveData<>();
-    public LiveData<HeartRateZones> heartRateZone = _heartRateZone;
+    private final MutableLiveData<ProcessedHeartRate> _heartRateLiveData = new MutableLiveData<>();
+    public LiveData<ProcessedHeartRate> heartRateLiveData = _heartRateLiveData;
 
     private final MutableLiveData<Boolean> _isLoading = new MutableLiveData<>(false);
     public LiveData<Boolean> isLoading = _isLoading;
@@ -52,23 +48,18 @@ public class MainViewModel extends ViewModel {
 
     public void startFetchingHeartRate() {
         _isLoading.postValue(true);
+        _errorMessage.postValue(null);
         disposables.add(fetchHeartRateUseCase.execute()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::processHeartRateData, this::handleError));
     }
 
-    private void processHeartRateData(HeartRateData data) {
-        classifyHeartRateZone(data.getHeartRateBpm());
+    private void processHeartRateData(ProcessedHeartRate data) {
         _heartRateLiveData.postValue(data);
 
         _errorMessage.postValue(null);
         _isLoading.postValue(false);
-    }
-
-    private void classifyHeartRateZone(int bpm) {
-        HeartRateZones zone = (bpm <= 60) ? HeartRateZones.RESTING_ZONE : (bpm <= 100) ? HeartRateZones.MODERATE_ZONE : HeartRateZones.HIGH_ZONE;
-        _heartRateZone.postValue(zone);
     }
 
     private void handleError(Throwable throwable) {
@@ -87,11 +78,11 @@ public class MainViewModel extends ViewModel {
     }
 
     public void scanAndConnectToBleDevice(Context context) {
-        bleSendAndConnectUseCase.scanAndConnect(context);
+        bleSendAndConnectUseCase.executeScanAndConnect(context);
     }
 
-    public void sendHeartRateData(Context context, int bpm, HeartRateZones zones) {
-        bleSendAndConnectUseCase.sendData(context, bpm, zones);
+    public void sendHeartRateData(Context context, ProcessedHeartRate heartRate) {
+        bleSendAndConnectUseCase.executeSendData(context, heartRate);
     }
 
     @Override

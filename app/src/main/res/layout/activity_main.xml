@@ -40,7 +40,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         tools:visibility="visible">
 
-        <com.fakhrirasyids.heartratemonitor.ui.customview.HeartBeatView
+        <com.fakhrirasyids.heartratemonitor.ui.customview.view.HeartBeatView
             android:id="@+id/heartbeat"
             android:layout_width="160dp"
             android:layout_height="160dp"

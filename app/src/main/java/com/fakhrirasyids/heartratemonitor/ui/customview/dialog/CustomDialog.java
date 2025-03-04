@@ -1,4 +1,4 @@
-package com.fakhrirasyids.heartratemonitor.utils;
+package com.fakhrirasyids.heartratemonitor.ui.customview.dialog;
 
 import android.content.Context;
 

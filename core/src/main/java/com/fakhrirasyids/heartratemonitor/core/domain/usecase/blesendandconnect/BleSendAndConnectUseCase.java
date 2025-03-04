@@ -2,13 +2,11 @@ package com.fakhrirasyids.heartratemonitor.core.domain.usecase.blesendandconnect
 
 import android.content.Context;
 
-import com.fakhrirasyids.heartratemonitor.core.domain.model.HeartRateData;
-import com.fakhrirasyids.heartratemonitor.core.utils.enums.HeartRateZones;
-
-import io.reactivex.rxjava3.core.Observable;
+import com.fakhrirasyids.heartratemonitor.core.domain.model.HeartRateZones;
+import com.fakhrirasyids.heartratemonitor.core.domain.model.ProcessedHeartRate;
 
 public interface BleSendAndConnectUseCase {
-    void scanAndConnect(Context context);
-    void sendData(Context context,int heartRate, HeartRateZones zones);
+    void executeScanAndConnect(Context context);
+    void executeSendData(Context context, ProcessedHeartRate heartRate);
 }
 

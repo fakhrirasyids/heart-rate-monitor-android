@@ -3,7 +3,7 @@ package com.fakhrirasyids.heartratemonitor.core.data.repository;
 import com.fakhrirasyids.heartratemonitor.core.data.datasource.remote.HealthApiService;
 import com.fakhrirasyids.heartratemonitor.core.domain.model.HeartRateData;
 import com.fakhrirasyids.heartratemonitor.core.domain.repository.HealthRepository;
-import com.fakhrirasyids.heartratemonitor.core.utils.mapper.HeartRateMapper;
+import com.fakhrirasyids.heartratemonitor.core.data.mapper.HeartRateMapper;
 
 import java.util.concurrent.TimeUnit;
 

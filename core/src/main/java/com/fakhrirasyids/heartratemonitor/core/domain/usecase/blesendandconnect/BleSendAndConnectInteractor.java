@@ -2,15 +2,11 @@ package com.fakhrirasyids.heartratemonitor.core.domain.usecase.blesendandconnect
 
 import android.content.Context;
 
-import com.fakhrirasyids.heartratemonitor.core.domain.model.HeartRateData;
+import com.fakhrirasyids.heartratemonitor.core.domain.model.ProcessedHeartRate;
 import com.fakhrirasyids.heartratemonitor.core.domain.repository.BleRepository;
-import com.fakhrirasyids.heartratemonitor.core.domain.repository.HealthRepository;
-import com.fakhrirasyids.heartratemonitor.core.domain.usecase.fetchheartrate.FetchHeartRateUseCase;
-import com.fakhrirasyids.heartratemonitor.core.utils.enums.HeartRateZones;
+import com.fakhrirasyids.heartratemonitor.core.domain.model.HeartRateZones;
 
 import javax.inject.Inject;
-
-import io.reactivex.rxjava3.core.Observable;
 
 public class BleSendAndConnectInteractor implements BleSendAndConnectUseCase {
     private final BleRepository repository;
@@ -21,13 +17,13 @@ public class BleSendAndConnectInteractor implements BleSendAndConnectUseCase {
     }
 
     @Override
-    public void scanAndConnect(Context context) {
+    public void executeScanAndConnect(Context context) {
         repository.scanAndConnect(context);
     }
 
     @Override
-    public void sendData(Context context, int heartRate, HeartRateZones zones) {
-        repository.sendData(context, heartRate, zones);
+    public void executeSendData(Context context, ProcessedHeartRate heartRate) {
+        repository.sendData(context, heartRate);
     }
 }
 
