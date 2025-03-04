@@ -6,6 +6,7 @@ import com.fakhrirasyids.heartratemonitor.core.domain.model.HeartRateData;
 import com.fakhrirasyids.heartratemonitor.core.domain.repository.BleRepository;
 import com.fakhrirasyids.heartratemonitor.core.domain.repository.HealthRepository;
 import com.fakhrirasyids.heartratemonitor.core.domain.usecase.fetchheartrate.FetchHeartRateUseCase;
+import com.fakhrirasyids.heartratemonitor.core.utils.enums.HeartRateZones;
 
 import javax.inject.Inject;
 
@@ -25,8 +26,8 @@ public class BleSendAndConnectInteractor implements BleSendAndConnectUseCase {
     }
 
     @Override
-    public void sendData(Context context, int heartRate) {
-        repository.sendData(context, heartRate);
+    public void sendData(Context context, int heartRate, HeartRateZones zones) {
+        repository.sendData(context, heartRate, zones);
     }
 }
 

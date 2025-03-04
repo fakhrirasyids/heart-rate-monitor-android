@@ -8,6 +8,6 @@
     <!-- Utils -->
     <string name="error_text">Error</string>
     <string name="retry_text">Retry</string>
-    <string name="app_desctiprion">Real-Time Heart Rate Fetching</string>
+    <string name="app_description">Real-Time Heart Rate Fetching</string>
 
 </resources>

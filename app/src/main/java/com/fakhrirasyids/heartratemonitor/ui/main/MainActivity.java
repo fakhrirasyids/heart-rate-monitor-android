@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -18,6 +19,10 @@ import com.fakhrirasyids.heartratemonitor.R;
 import com.fakhrirasyids.heartratemonitor.databinding.ActivityMainBinding;
 import com.fakhrirasyids.heartratemonitor.utils.CustomDialog;
 import com.fakhrirasyids.heartratemonitor.utils.LoadingDialog;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 import javax.inject.Inject;
 
@@ -64,7 +69,7 @@ public class MainActivity extends DaggerAppCompatActivity {
 
         mainViewModel.heartRateLiveData.observe(this, heartRateData -> {
             if (heartRateData != null) {
-                int heartRateBpm = 110;
+                int heartRateBpm = heartRateData.getHeartRateBpm();
 
                 binding.layoutHeartRate.setVisibility(View.VISIBLE);
 
@@ -75,13 +80,15 @@ public class MainActivity extends DaggerAppCompatActivity {
                     showAbnormalHeartRateNotification(heartRateData.getHeartRateBpm());
                 }
 
-                mainViewModel.sendHeartRateData(this, heartRateBpm);
+                mainViewModel.sendHeartRateData(this, heartRateBpm, Objects.requireNonNull(mainViewModel.heartRateZone.getValue()));
             } else {
                 binding.layoutHeartRate.setVisibility(View.GONE);
             }
         });
 
-        mainViewModel.heartRateZone.observe(this, heartRateZone -> binding.tvHeartRateZones.setText(heartRateZone));
+        mainViewModel.heartRateZone.observe(this, heartRateZone -> {
+            binding.tvHeartRateZones.setText(heartRateZone.getDisplayName());
+        });
 
         mainViewModel.errorMessage.observe(this, errorMessage -> {
             if (errorMessage != null) {
@@ -123,40 +130,44 @@ public class MainActivity extends DaggerAppCompatActivity {
     }
 
     private void checkPermissions() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+        List<String> permissions = new ArrayList<>();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) { // Android 13+
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                permissions.add(Manifest.permission.POST_NOTIFICATIONS);
+            }
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) { // Android 12+
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED ||
                     ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED ||
-                    ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_ADVERTISE) != PackageManager.PERMISSION_GRANTED
-            ) {
+                    ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_ADVERTISE) != PackageManager.PERMISSION_GRANTED) {
 
-                permissionLauncher.launch(new String[]{
-                        Manifest.permission.BLUETOOTH_CONNECT,
-                        Manifest.permission.BLUETOOTH_SCAN,
-                        Manifest.permission.BLUETOOTH_ADVERTISE,
-                });
-            } else {
-                mainViewModel.updatePermissionStatus(true);
+                permissions.add(Manifest.permission.BLUETOOTH_CONNECT);
+                permissions.add(Manifest.permission.BLUETOOTH_SCAN);
+                permissions.add(Manifest.permission.BLUETOOTH_ADVERTISE);
             }
         } else {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH) != PackageManager.PERMISSION_GRANTED ||
                     ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_ADMIN) != PackageManager.PERMISSION_GRANTED) {
 
-                permissionLauncher.launch(new String[]{
-                        Manifest.permission.BLUETOOTH,
-                        Manifest.permission.BLUETOOTH_ADMIN
-                });
-            } else {
-                mainViewModel.updatePermissionStatus(true);
+                permissions.add(Manifest.permission.BLUETOOTH);
+                permissions.add(Manifest.permission.BLUETOOTH_ADMIN);
             }
+        }
+
+        if (!permissions.isEmpty()) {
+            permissionLauncher.launch(permissions.toArray(new String[0]));
+        } else {
+            mainViewModel.updatePermissionStatus(true);
         }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        binding.heartbeat.start();
-
         if (mainViewModel.errorMessage.getValue() == null) {
+            binding.heartbeat.start();
             mainViewModel.startFetchingHeartRate();
         }
     }

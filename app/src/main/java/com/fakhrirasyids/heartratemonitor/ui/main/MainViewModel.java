@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModel;
 import com.fakhrirasyids.heartratemonitor.core.domain.model.HeartRateData;
 import com.fakhrirasyids.heartratemonitor.core.domain.usecase.blesendandconnect.BleSendAndConnectUseCase;
 import com.fakhrirasyids.heartratemonitor.core.domain.usecase.fetchheartrate.FetchHeartRateUseCase;
+import com.fakhrirasyids.heartratemonitor.core.utils.enums.HeartRateZones;
 import com.fakhrirasyids.heartratemonitor.utils.ErrorHandling;
 
 import javax.inject.Inject;
@@ -26,8 +27,8 @@ public class MainViewModel extends ViewModel {
     private final MutableLiveData<HeartRateData> _heartRateLiveData = new MutableLiveData<>();
     public LiveData<HeartRateData> heartRateLiveData = _heartRateLiveData;
 
-    private final MutableLiveData<String> _heartRateZone = new MutableLiveData<>();
-    public LiveData<String> heartRateZone = _heartRateZone;
+    private final MutableLiveData<HeartRateZones> _heartRateZone = new MutableLiveData<>();
+    public LiveData<HeartRateZones> heartRateZone = _heartRateZone;
 
     private final MutableLiveData<Boolean> _isLoading = new MutableLiveData<>(false);
     public LiveData<Boolean> isLoading = _isLoading;
@@ -58,15 +59,15 @@ public class MainViewModel extends ViewModel {
     }
 
     private void processHeartRateData(HeartRateData data) {
-        _errorMessage.postValue(null);
-        _heartRateLiveData.postValue(data);
-        _heartRateZone.postValue(null);
         classifyHeartRateZone(data.getHeartRateBpm());
+        _heartRateLiveData.postValue(data);
+
+        _errorMessage.postValue(null);
         _isLoading.postValue(false);
     }
 
     private void classifyHeartRateZone(int bpm) {
-        String zone = (bpm <= 60) ? "Resting Zone" : (bpm <= 100) ? "Moderate Zone" : "High Zone";
+        HeartRateZones zone = (bpm <= 60) ? HeartRateZones.RESTING_ZONE : (bpm <= 100) ? HeartRateZones.MODERATE_ZONE : HeartRateZones.HIGH_ZONE;
         _heartRateZone.postValue(zone);
     }
 
@@ -89,8 +90,8 @@ public class MainViewModel extends ViewModel {
         bleSendAndConnectUseCase.scanAndConnect(context);
     }
 
-    public void sendHeartRateData(Context context, int bpm) {
-        bleSendAndConnectUseCase.sendData(context, bpm);
+    public void sendHeartRateData(Context context, int bpm, HeartRateZones zones) {
+        bleSendAndConnectUseCase.sendData(context, bpm, zones);
     }
 
     @Override

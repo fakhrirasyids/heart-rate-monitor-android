@@ -1,7 +1,5 @@
 package com.fakhrirasyids.heartratemonitor.utils;
 
-import android.bluetooth.BluetoothSocketException;
-
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
