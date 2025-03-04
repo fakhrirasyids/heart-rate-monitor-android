@@ -1,16 +1,16 @@
 package com.fakhrirasyids.heartratemonitor.core.di;
 
-import android.bluetooth.BluetoothAdapter;
+import android.content.Context;
 
-import com.fakhrirasyids.heartratemonitor.core.data.datasource.remote.HealthApiService;
-import com.fakhrirasyids.heartratemonitor.core.data.repository.BleRepositoryImpl;
-import com.fakhrirasyids.heartratemonitor.core.data.repository.HealthRepositoryImpl;
 import com.fakhrirasyids.heartratemonitor.core.domain.repository.BleRepository;
 import com.fakhrirasyids.heartratemonitor.core.domain.repository.HealthRepository;
 import com.fakhrirasyids.heartratemonitor.core.domain.usecase.blesendandconnect.BleSendAndConnectInteractor;
 import com.fakhrirasyids.heartratemonitor.core.domain.usecase.blesendandconnect.BleSendAndConnectUseCase;
 import com.fakhrirasyids.heartratemonitor.core.domain.usecase.fetchheartrate.FetchHeartRateInteractor;
 import com.fakhrirasyids.heartratemonitor.core.domain.usecase.fetchheartrate.FetchHeartRateUseCase;
+import com.fakhrirasyids.heartratemonitor.core.domain.usecase.processnotification.ProcessNotificationInteractor;
+import com.fakhrirasyids.heartratemonitor.core.domain.usecase.processnotification.ProcessNotificationUseCase;
+import com.fakhrirasyids.heartratemonitor.core.utils.helper.NotificationHelper;
 
 import javax.inject.Singleton;
 
@@ -29,5 +29,17 @@ public class UseCaseModule {
     @Singleton
     public static BleSendAndConnectUseCase provideBleSendAndConnectUseCase(BleRepository bleRepository) {
         return new BleSendAndConnectInteractor(bleRepository);
+    }
+
+    @Provides
+    @Singleton
+    public static ProcessNotificationUseCase provideProcessNotificationUseCase(NotificationHelper notificationHelper) {
+        return new ProcessNotificationInteractor(notificationHelper);
+    }
+
+    @Provides
+    @Singleton
+    NotificationHelper provideNotificationHelper(Context context) {
+        return new NotificationHelper(context);
     }
 }

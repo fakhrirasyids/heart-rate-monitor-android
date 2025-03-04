@@ -1,9 +1,7 @@
 package com.fakhrirasyids.heartratemonitor;
 
-import android.app.Activity;
 import android.app.Application;
 
-import com.fakhrirasyids.heartratemonitor.di.AppComponent;
 import com.fakhrirasyids.heartratemonitor.di.DaggerAppComponent;
 
 import javax.inject.Inject;

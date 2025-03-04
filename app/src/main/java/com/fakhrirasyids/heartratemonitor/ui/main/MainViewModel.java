@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModel;
 import com.fakhrirasyids.heartratemonitor.core.domain.model.ProcessedHeartRate;
 import com.fakhrirasyids.heartratemonitor.core.domain.usecase.blesendandconnect.BleSendAndConnectUseCase;
 import com.fakhrirasyids.heartratemonitor.core.domain.usecase.fetchheartrate.FetchHeartRateUseCase;
+import com.fakhrirasyids.heartratemonitor.core.domain.usecase.processnotification.ProcessNotificationUseCase;
 import com.fakhrirasyids.heartratemonitor.utils.ErrorHandling;
 
 import javax.inject.Inject;
@@ -22,6 +23,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 public class MainViewModel extends ViewModel {
     private final FetchHeartRateUseCase fetchHeartRateUseCase;
     private final BleSendAndConnectUseCase bleSendAndConnectUseCase;
+    private final ProcessNotificationUseCase processNotificationUseCase;
 
     private final MutableLiveData<ProcessedHeartRate> _heartRateLiveData = new MutableLiveData<>();
     public LiveData<ProcessedHeartRate> heartRateLiveData = _heartRateLiveData;
@@ -40,10 +42,12 @@ public class MainViewModel extends ViewModel {
     @Inject
     public MainViewModel(
             FetchHeartRateUseCase fetchHeartRateUseCase,
-            BleSendAndConnectUseCase bleSendAndConnectUseCase
+            BleSendAndConnectUseCase bleSendAndConnectUseCase,
+            ProcessNotificationUseCase processNotificationUseCase
     ) {
         this.fetchHeartRateUseCase = fetchHeartRateUseCase;
         this.bleSendAndConnectUseCase = bleSendAndConnectUseCase;
+        this.processNotificationUseCase = processNotificationUseCase;
     }
 
     public void startFetchingHeartRate() {
@@ -83,6 +87,10 @@ public class MainViewModel extends ViewModel {
 
     public void sendHeartRateData(Context context, ProcessedHeartRate heartRate) {
         bleSendAndConnectUseCase.executeSendData(context, heartRate);
+    }
+
+    public void processAlertNotification() {
+        processNotificationUseCase.execute(heartRateLiveData.getValue());
     }
 
     @Override

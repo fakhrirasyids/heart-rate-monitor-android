@@ -2,7 +2,6 @@ package com.fakhrirasyids.heartratemonitor.core.usecase;
 
 import static org.mockito.Mockito.*;
 
-import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 
 import com.fakhrirasyids.heartratemonitor.core.domain.model.HeartRateData;

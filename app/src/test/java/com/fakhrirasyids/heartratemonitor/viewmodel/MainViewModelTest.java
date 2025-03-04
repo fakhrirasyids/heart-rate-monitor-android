@@ -17,7 +17,6 @@ import com.fakhrirasyids.heartratemonitor.core.domain.model.ProcessedHeartRate;
 import com.fakhrirasyids.heartratemonitor.core.domain.usecase.blesendandconnect.BleSendAndConnectUseCase;
 import com.fakhrirasyids.heartratemonitor.core.domain.usecase.fetchheartrate.FetchHeartRateUseCase;
 import com.fakhrirasyids.heartratemonitor.ui.main.MainViewModel;
-import com.fakhrirasyids.heartratemonitor.utils.LiveDataTestUtils;
 import com.fakhrirasyids.heartratemonitor.utils.RxImmediateSchedulerRule;
 
 import org.junit.After;
@@ -31,8 +30,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import java.util.concurrent.TimeoutException;
-
 import io.reactivex.rxjava3.core.Observable;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -44,14 +41,21 @@ public class MainViewModelTest {
     @Rule
     public InstantTaskExecutorRule instantTaskExecutorRule = new InstantTaskExecutorRule();
 
-    @Mock Context context;
-    @Mock FetchHeartRateUseCase fetchHeartRateUseCase;
-    @Mock BleSendAndConnectUseCase bleSendAndConnectUseCase;
-    @Mock Observer<ProcessedHeartRate> heartRateObserver;
-    @Mock Observer<String> errorObserver;
-    @Mock Observer<Boolean> loadingObserver;
+    @Mock
+    Context context;
+    @Mock
+    FetchHeartRateUseCase fetchHeartRateUseCase;
+    @Mock
+    BleSendAndConnectUseCase bleSendAndConnectUseCase;
+    @Mock
+    Observer<ProcessedHeartRate> heartRateObserver;
+    @Mock
+    Observer<String> errorObserver;
+    @Mock
+    Observer<Boolean> loadingObserver;
 
-    @InjectMocks MainViewModel mainViewModel;
+    @InjectMocks
+    MainViewModel mainViewModel;
 
     @Before
     public void setUp() {

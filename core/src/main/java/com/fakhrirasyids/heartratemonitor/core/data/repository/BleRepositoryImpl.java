@@ -20,7 +20,6 @@ import androidx.core.app.ActivityCompat;
 import com.fakhrirasyids.heartratemonitor.core.BuildConfig;
 import com.fakhrirasyids.heartratemonitor.core.domain.model.ProcessedHeartRate;
 import com.fakhrirasyids.heartratemonitor.core.domain.repository.BleRepository;
-import com.fakhrirasyids.heartratemonitor.core.domain.model.HeartRateZones;
 
 import java.util.UUID;
 

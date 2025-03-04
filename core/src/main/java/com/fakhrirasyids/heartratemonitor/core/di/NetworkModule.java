@@ -1,18 +1,7 @@
 package com.fakhrirasyids.heartratemonitor.core.di;
 
-import android.app.Application;
-import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothManager;
-import android.content.Context;
-
 import com.fakhrirasyids.heartratemonitor.core.BuildConfig;
-import com.fakhrirasyids.heartratemonitor.core.data.repository.BleRepositoryImpl;
-import com.fakhrirasyids.heartratemonitor.core.data.repository.HealthRepositoryImpl;
 import com.fakhrirasyids.heartratemonitor.core.data.datasource.remote.HealthApiService;
-import com.fakhrirasyids.heartratemonitor.core.domain.repository.BleRepository;
-import com.fakhrirasyids.heartratemonitor.core.domain.repository.HealthRepository;
-import com.fakhrirasyids.heartratemonitor.core.domain.usecase.fetchheartrate.FetchHeartRateInteractor;
-import com.fakhrirasyids.heartratemonitor.core.domain.usecase.fetchheartrate.FetchHeartRateUseCase;
 
 import javax.inject.Singleton;
 

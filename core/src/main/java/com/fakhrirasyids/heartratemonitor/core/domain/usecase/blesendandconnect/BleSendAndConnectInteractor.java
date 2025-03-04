@@ -4,7 +4,6 @@ import android.content.Context;
 
 import com.fakhrirasyids.heartratemonitor.core.domain.model.ProcessedHeartRate;
 import com.fakhrirasyids.heartratemonitor.core.domain.repository.BleRepository;
-import com.fakhrirasyids.heartratemonitor.core.domain.model.HeartRateZones;
 
 import javax.inject.Inject;
 

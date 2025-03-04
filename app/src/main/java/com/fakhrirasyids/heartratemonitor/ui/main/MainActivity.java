@@ -17,7 +17,6 @@ import com.fakhrirasyids.heartratemonitor.ui.customview.dialog.LoadingDialog;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import javax.inject.Inject;
 
@@ -75,7 +74,7 @@ public class MainActivity extends DaggerAppCompatActivity {
                 binding.tvHeartRateZones.setText(heartRateZones);
 
                 if (heartRateAbnormality) {
-//                    showAbnormalHeartRateNotification(heartRateData.getHeartRateBpm());
+                    mainViewModel.processAlertNotification();
                 }
 
                 mainViewModel.sendHeartRateData(this, heartRateData);
