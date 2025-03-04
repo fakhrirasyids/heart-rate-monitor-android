@@ -6,18 +6,15 @@ import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.core.content.ContextCompat;
 
 import com.fakhrirasyids.heartratemonitor.R;
 
 public class HeartBeatView extends AppCompatImageView {
-
-    private static final String TAG = "HeartBeatView";
-
     private static final float DEFAULT_SCALE_FACTOR = 0.2f;
     private static final int DEFAULT_DURATION = 50;
-    private Drawable heartDrawable;
 
     private boolean heartBeating = false;
 
@@ -43,8 +40,7 @@ public class HeartBeatView extends AppCompatImageView {
     }
 
     private void init() {
-        //make this not mandatory
-        heartDrawable = ContextCompat.getDrawable(getContext(), R.drawable.ic_heart);
+        Drawable heartDrawable = ContextCompat.getDrawable(getContext(), R.drawable.bg_circle);
         setImageDrawable(heartDrawable);
     }
 
@@ -54,24 +50,13 @@ public class HeartBeatView extends AppCompatImageView {
                 R.styleable.HeartBeatView,
                 0, 0
         );
+
         try {
             scaleFactor = a.getFloat(R.styleable.HeartBeatView_scaleFactor, DEFAULT_SCALE_FACTOR);
             reductionScaleFactor = -scaleFactor;
             duration = a.getInteger(R.styleable.HeartBeatView_duration, DEFAULT_DURATION);
-
-
         } finally {
             a.recycle();
-        }
-
-    }
-
-
-    public void toggle() {
-        if (heartBeating) {
-            stop();
-        } else {
-            start();
         }
     }
 
@@ -80,74 +65,37 @@ public class HeartBeatView extends AppCompatImageView {
         animate().scaleXBy(scaleFactor).scaleYBy(scaleFactor).setDuration(duration).setListener(scaleUpListener);
     }
 
-    /**
-     * Stops the heat beat/pump animation
-     */
     public void stop() {
         heartBeating = false;
         clearAnimation();
     }
 
-    /**
-     * is the heart currently beating
-     *
-     * @return
-     */
-    public boolean isHeartBeating() {
-        return heartBeating;
-    }
-
-    public int getDuration() {
-        return duration;
-    }
-
-
     private static final int milliInMinute = 60000;
 
-    /**
-     * set the duration of the beat based on the beats per minute
-     *
-     * @param bpm (positive int above 0)
-     */
     public void setDurationBasedOnBPM(int bpm) {
         if (bpm > 0) {
-            duration = Math.round((milliInMinute / bpm) / 3f);
+            duration = Math.round(((float) milliInMinute / bpm) / 3f);
         }
-    }
-
-
-    public void setDuration(int duration) {
-        this.duration = duration;
-    }
-
-    public float getScaleFactor() {
-        return scaleFactor;
-    }
-
-    public void setScaleFactor(float scaleFactor) {
-        this.scaleFactor = scaleFactor;
-        reductionScaleFactor = -scaleFactor;
     }
 
     private final Animator.AnimatorListener scaleUpListener = new Animator.AnimatorListener() {
 
         @Override
-        public void onAnimationStart(Animator animation) {
+        public void onAnimationStart(@NonNull Animator animation) {
         }
 
         @Override
-        public void onAnimationRepeat(Animator animation) {
+        public void onAnimationRepeat(@NonNull Animator animation) {
 
         }
 
         @Override
-        public void onAnimationEnd(Animator animation) {
-            //we ignore heartBeating as we want to ensure the heart is reduced back to original size
+        public void onAnimationEnd(@NonNull Animator animation) {
             animate().scaleXBy(reductionScaleFactor).scaleYBy(reductionScaleFactor).setDuration(duration).setListener(scaleDownListener);
         }
 
         @Override
-        public void onAnimationCancel(Animator animation) {
+        public void onAnimationCancel(@NonNull Animator animation) {
 
         }
     };
@@ -156,23 +104,22 @@ public class HeartBeatView extends AppCompatImageView {
     private final Animator.AnimatorListener scaleDownListener = new Animator.AnimatorListener() {
 
         @Override
-        public void onAnimationStart(Animator animation) {
+        public void onAnimationStart(@NonNull Animator animation) {
         }
 
         @Override
-        public void onAnimationRepeat(Animator animation) {
+        public void onAnimationRepeat(@NonNull Animator animation) {
         }
 
         @Override
-        public void onAnimationEnd(Animator animation) {
+        public void onAnimationEnd(@NonNull Animator animation) {
             if (heartBeating) {
-                //duration twice as long for the upscale
-                animate().scaleXBy(scaleFactor).scaleYBy(scaleFactor).setDuration(duration * 2).setListener(scaleUpListener);
+                animate().scaleXBy(scaleFactor).scaleYBy(scaleFactor).setDuration(duration * 2L).setListener(scaleUpListener);
             }
         }
 
         @Override
-        public void onAnimationCancel(Animator animation) {
+        public void onAnimationCancel(@NonNull Animator animation) {
         }
     };
 

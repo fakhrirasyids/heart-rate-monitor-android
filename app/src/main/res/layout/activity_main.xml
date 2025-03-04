@@ -5,36 +5,29 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
+    android:gravity="center"
+    android:background="@color/primaryGray"
     android:orientation="vertical"
     tools:context=".ui.main.MainActivity">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/layout_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:title="@string/app_name"
-            android:titleTextColor="@android:color/black" />
-
-    </androidx.cardview.widget.CardView>
-
     <TextView
-        android:id="@+id/tv_heart_rate_zones"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:gravity="center"
-        android:textColor="@android:color/holo_red_dark"
-        android:textSize="38sp"
-        android:textStyle="bold"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="Resting Zone" />
+        android:textColor="@android:color/white"
+        android:textSize="24sp"
+        android:text="@string/app_name"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="14sp"
+        android:text="@string/app_desctiprion"
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_heart_rate"
@@ -42,15 +35,17 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="vertical"
+        android:layout_margin="12dp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/layout_toolbar"
         tools:visibility="visible">
 
         <com.fakhrirasyids.heartratemonitor.ui.customview.HeartBeatView
             android:id="@+id/heartbeat"
-            android:layout_width="match_parent"
+            android:layout_width="160dp"
             android:layout_height="160dp"
+            android:layout_margin="24dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -70,5 +65,16 @@
             tools:text="190\nBpm" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/tv_heart_rate_zones"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="@color/primaryOrange"
+        android:textSize="38sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Resting Zone" />
 
 </LinearLayout>
