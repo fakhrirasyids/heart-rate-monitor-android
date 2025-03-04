@@ -1,4 +1,4 @@
-package com.fakhrirasyids.heartratemonitor.core.data.remote;
+package com.fakhrirasyids.heartratemonitor.core.data.datasource.model;
 
 import com.google.gson.annotations.SerializedName;
 

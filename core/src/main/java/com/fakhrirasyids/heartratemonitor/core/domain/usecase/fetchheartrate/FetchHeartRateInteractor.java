@@ -1,4 +1,4 @@
-package com.fakhrirasyids.heartratemonitor.core.domain.usecase;
+package com.fakhrirasyids.heartratemonitor.core.domain.usecase.fetchheartrate;
 
 import com.fakhrirasyids.heartratemonitor.core.domain.model.HeartRateData;
 import com.fakhrirasyids.heartratemonitor.core.domain.repository.HealthRepository;

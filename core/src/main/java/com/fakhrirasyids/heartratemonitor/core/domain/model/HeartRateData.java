@@ -12,5 +12,5 @@ public class HeartRateData {
         return heartRateBpm;
     }
 
-    private int heartRateBpm;
+    private final int heartRateBpm;
 }

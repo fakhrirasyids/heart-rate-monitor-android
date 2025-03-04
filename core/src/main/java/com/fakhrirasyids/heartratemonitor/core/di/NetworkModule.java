@@ -1,11 +1,18 @@
 package com.fakhrirasyids.heartratemonitor.core.di;
 
+import android.app.Application;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothManager;
+import android.content.Context;
+
 import com.fakhrirasyids.heartratemonitor.core.BuildConfig;
-import com.fakhrirasyids.heartratemonitor.core.data.HealthRepositoryImpl;
-import com.fakhrirasyids.heartratemonitor.core.data.remote.HealthApiService;
+import com.fakhrirasyids.heartratemonitor.core.data.repository.BleRepositoryImpl;
+import com.fakhrirasyids.heartratemonitor.core.data.repository.HealthRepositoryImpl;
+import com.fakhrirasyids.heartratemonitor.core.data.datasource.remote.HealthApiService;
+import com.fakhrirasyids.heartratemonitor.core.domain.repository.BleRepository;
 import com.fakhrirasyids.heartratemonitor.core.domain.repository.HealthRepository;
-import com.fakhrirasyids.heartratemonitor.core.domain.usecase.FetchHeartRateInteractor;
-import com.fakhrirasyids.heartratemonitor.core.domain.usecase.FetchHeartRateUseCase;
+import com.fakhrirasyids.heartratemonitor.core.domain.usecase.fetchheartrate.FetchHeartRateInteractor;
+import com.fakhrirasyids.heartratemonitor.core.domain.usecase.fetchheartrate.FetchHeartRateUseCase;
 
 import javax.inject.Singleton;
 
@@ -19,7 +26,7 @@ import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 @Module
-public class CoreModule {
+public class NetworkModule {
     @Provides
     @Singleton
     HealthApiService provideHealthApiService(OkHttpClient okHttpClient, Retrofit.Builder retrofitBuilder) {
@@ -58,17 +65,5 @@ public class CoreModule {
     @Singleton
     Retrofit.Builder provideRetrofitBuilder() {
         return new Retrofit.Builder();
-    }
-
-    @Provides
-    @Singleton
-    public static HealthRepository provideHealthRepository(HealthApiService apiService) {
-        return new HealthRepositoryImpl(apiService);
-    }
-
-    @Provides
-    @Singleton
-    public static FetchHeartRateUseCase provideFetchHeartRateUseCase(HealthRepository healthRepository) {
-        return new FetchHeartRateInteractor(healthRepository);
     }
 }

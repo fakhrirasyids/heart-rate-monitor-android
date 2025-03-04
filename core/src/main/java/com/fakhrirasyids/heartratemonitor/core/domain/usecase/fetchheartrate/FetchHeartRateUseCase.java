@@ -1,8 +1,6 @@
-package com.fakhrirasyids.heartratemonitor.core.domain.usecase;
+package com.fakhrirasyids.heartratemonitor.core.domain.usecase.fetchheartrate;
 
 import com.fakhrirasyids.heartratemonitor.core.domain.model.HeartRateData;
-
-import javax.inject.Inject;
 
 import io.reactivex.rxjava3.core.Observable;
 

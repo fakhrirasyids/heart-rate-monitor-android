@@ -1,5 +1,7 @@
-package com.fakhrirasyids.heartratemonitor.core.data.remote;
+package com.fakhrirasyids.heartratemonitor.core.data.datasource.remote;
 
+
+import com.fakhrirasyids.heartratemonitor.core.data.datasource.model.HeartRateResponse;
 
 import io.reactivex.rxjava3.core.Observable;
 import retrofit2.http.GET;
