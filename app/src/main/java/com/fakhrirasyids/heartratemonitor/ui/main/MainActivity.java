@@ -152,4 +152,8 @@ public class MainActivity extends DaggerAppCompatActivity {
         binding.heartbeat.stop();
         mainViewModel.stopFetchingHeartRate();
     }
+
+    public MainViewModel getViewModel() {
+        return mainViewModel;
+    }
 }

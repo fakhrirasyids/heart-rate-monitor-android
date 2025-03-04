@@ -98,4 +98,8 @@ public class MainViewModel extends ViewModel {
         super.onCleared();
         stopFetchingHeartRate();
     }
+
+    public void setHeartRateLiveData(ProcessedHeartRate heartRateLiveData) {
+        this._heartRateLiveData.postValue(heartRateLiveData);;
+    }
 }

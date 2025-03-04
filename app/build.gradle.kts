@@ -40,6 +40,9 @@ android {
 
 dependencies {
     // Core Module
-
     implementation(project(":core"))
+
+    // Espresso
+//    androidTestImplementation("androidx.test.espresso:espresso-contrib:3.6.1")
+//    androidTestImplementation("androidx.test.espresso:espresso-intents:3.6.1")
 }
